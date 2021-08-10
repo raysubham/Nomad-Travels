@@ -26,7 +26,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "codegen-schema": "apollo service:download --endpoint=http://localhost:7777/api graphql-schema.json",
+    "codegen-schema": "apollo service:download --endpoint=http://localhost:1177/api graphql-schema.json",
     "codegen-generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=src/**/*.tsx --tagName=gql"
   },
   "eslintConfig": {
@@ -47,5 +47,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:7777"
+  "proxy": "http://localhost:1177"
 }
