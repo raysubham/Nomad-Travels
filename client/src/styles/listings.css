@@ -1,0 +1,12 @@
+.listings {
+  margin: 20px;
+  max-width: 1000px;
+}
+
+.listings button {
+  border-radius: 10%;
+  background: green;
+  color: white;
+  outline: none;
+  padding: 5px;
+}

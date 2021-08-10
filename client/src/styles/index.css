@@ -1,0 +1,8 @@
+@import 'antd/dist/antd.css';
+
+body {
+  margin: auto;
+  padding: auto;
+  text-align: center;
+  justify-content: center;
+}
