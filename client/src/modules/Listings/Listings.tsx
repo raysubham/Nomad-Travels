@@ -4,7 +4,7 @@ import {
   DeleteListing as DeleteListingData,
   DeleteListingVariables,
 } from './__generated__/DeleteListing'
-import '../../styles/listings.css'
+import './styles/listings.css'
 import { List, Avatar, Button, Spin, Alert } from 'antd'
 import { ListingsSkeleton } from './components/ListingsSkeleton'
 
@@ -36,7 +36,7 @@ interface Props {
   title: string
 }
 
-export const ListingsComponent = ({ title }: Props) => {
+export const Listings = ({ title }: Props) => {
   const { data, loading, error } = useQuery<ListingsData>(LISTINGS)
   const listings = data ? data.listings : null
 
