@@ -31,7 +31,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "codegen-schema": "apollo service:download --endpoint=http://localhost:1177/api graphql-schema.json",
-    "codegen-generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --target=typescript --includes=src/**/*.tsx --tagName=gql"
+    "codegen-generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --globalTypesFile=./src/lib/graphql/globalTypes.ts --target=typescript --includes=src/**/*.ts --tagName=gql"
   },
   "eslintConfig": {
     "extends": [

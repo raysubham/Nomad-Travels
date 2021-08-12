@@ -17,6 +17,14 @@ export enum ListingType {
   House = 'HOUSE',
 }
 
+export interface Viewer {
+  _id?: string
+  token?: string
+  avatar?: string
+  hasWallet?: boolean
+  didRequest: boolean
+}
+
 export interface Listing {
   _id: ObjectId
   title: string
