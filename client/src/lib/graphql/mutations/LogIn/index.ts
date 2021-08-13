@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-const LOG_IN = gql`
+export const LOG_IN = gql`
   mutation LogIn($input: LogInInput) {
     logIn(input: $input) {
       id

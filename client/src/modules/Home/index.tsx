@@ -1,3 +1,13 @@
+import { displaySuccessNotification } from '../../lib/utils'
+
 export const Home = () => {
-  return <div>Home</div>
+  return (
+    <div>
+      <button
+        onClick={() => displaySuccessNotification('Log In Successfull 🎉')}>
+        {' '}
+        <a href='/login'>Login</a>
+      </button>
+    </div>
+  )
 }

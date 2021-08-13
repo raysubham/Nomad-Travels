@@ -21,7 +21,7 @@ export interface Viewer {
   _id?: string
   token?: string
   avatar?: string
-  hasWallet?: boolean
+  walletId?: string
   didRequest: boolean
 }
 

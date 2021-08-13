@@ -39,7 +39,7 @@ const LogInViaGoogle = async (
     throw new Error('Google Log In failed!')
   }
 
-  const updateExistingOrAddNewViewer = await db.users.findOneAndUpdate(
+  const updateExistingViewer = await db.users.findOneAndUpdate(
     {
       _id: userId,
     },
@@ -49,15 +49,27 @@ const LogInViaGoogle = async (
         email: userEmail,
         avatar: userAvatar,
         token,
-        income: 0,
-        bookings: [],
-        listings: [],
       },
-    },
-    { upsert: true }
+    }
   )
 
-  const viewer = updateExistingOrAddNewViewer.value
+  let viewer = updateExistingViewer.value
+
+  if (!viewer) {
+    const addNewViewer = await db.users.insertOne({
+      _id: userId,
+      name: userName,
+      email: userEmail,
+      avatar: userAvatar,
+      token,
+      income: 0,
+      listings: [],
+      bookings: [],
+    })
+
+    const newViewerId = addNewViewer.insertedId
+    viewer = await db.users.findOne({ _id: newViewerId })
+  }
   return viewer
 }
 
@@ -77,7 +89,7 @@ export const ViewerResolvers = {
       _root: undefined,
       { input }: LogInArgs,
       { db }: { db: Database }
-    ): Promise<Viewer | undefined> => {
+    ): Promise<Viewer> => {
       try {
         const code = input ? input.code : undefined
         const token = crypto.randomBytes(16).toString('hex')
@@ -91,10 +103,12 @@ export const ViewerResolvers = {
           _id: viewer._id,
           token: viewer.token,
           avatar: viewer.avatar,
-          hasWallet: viewer.walletId ? true : undefined,
+          walletId: viewer.walletId,
           didRequest: true,
         }
-      } catch (error) {}
+      } catch (error) {
+        throw new Error(`Failed to log in ${error}`)
+      }
     },
     logOut: () => {
       try {
@@ -110,7 +124,7 @@ export const ViewerResolvers = {
       return viewer._id
     },
     hasWallet: (viewer: Viewer): boolean | undefined => {
-      return viewer.hasWallet ? true : undefined
+      return viewer.walletId ? true : undefined
     },
   },
 }
