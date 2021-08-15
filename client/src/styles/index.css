@@ -65,7 +65,7 @@ body {
 .app-header__menu-section {
   float: right;
   width: 100%;
-  flex: 0.15;
+  flex: 0.2;
 }
 
 @media (max-width: 770px) {
