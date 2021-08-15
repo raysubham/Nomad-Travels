@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import express, { Application } from 'express'
+import cookieParser from 'cookie-parser'
 import { ApolloServer } from 'apollo-server-express'
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core'
 import { typeDefs, resolvers } from './graphql'
@@ -9,10 +10,11 @@ const port = process.env.PORT
 
 const startServer = async (app: Application) => {
   const db = await connectDatabase()
+  app.use(cookieParser(process.env.COOKIE_SECRET))
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    context: () => ({ db }),
+    context: ({ req, res }) => ({ db, req, res }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
   })
   await server.start()

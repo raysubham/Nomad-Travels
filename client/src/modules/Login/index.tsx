@@ -31,6 +31,9 @@ export const Login = ({ setViewer }: Props) => {
       onCompleted: (data) => {
         if (data && data.logIn) {
           setViewer(data.logIn)
+          if (data.logIn.token) {
+            sessionStorage.setItem('token', data.logIn.token)
+          }
           displaySuccessNotification('Log In Successful 🎉')
         }
       },
@@ -99,7 +102,7 @@ export const Login = ({ setViewer }: Props) => {
               className='log-in-card__google-button-logo'
             />
             <span className='log-in-card__google-button-text'>
-              Sign in with Google!
+              Sign in with Google
             </span>
           </button>
           <Text type='secondary'>

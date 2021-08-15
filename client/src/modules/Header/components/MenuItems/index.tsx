@@ -22,6 +22,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
     onCompleted: (data) => {
       if (data && data.logOut) {
         setViewer(data.logOut)
+        sessionStorage.removeItem('token')
         displaySuccessNotification('Log out successful 🎉')
       }
     },
@@ -36,20 +37,19 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 
   const SubMenuDropDown =
     viewer.id && viewer.avatar ? (
-      <Item>
-        <SubMenu title={<Avatar alt={viewer.avatar} />}>
-          <Item key='/user'>
-            <Link to={`/user/${viewer.id}`} />
-            <UserOutlined /> Profile
-          </Item>
-          <Item key='/logout'>
-            <div onClick={handleLogout}>
-              <Link to='/' />
-              <LogoutOutlined /> Logout
-            </div>
-          </Item>
-        </SubMenu>
-      </Item>
+      <SubMenu title={<Avatar src={viewer.avatar} />}>
+        <Item key='/user'>
+          <Link to={`/user/${viewer.id}`} />
+          <UserOutlined />
+          <span>Profile</span>
+        </Item>
+        <Item key='/logout'>
+          <div onClick={handleLogout}>
+            <LogoutOutlined />
+            <span>Logout</span>
+          </div>
+        </Item>
+      </SubMenu>
     ) : (
       <Item key='/login'>
         <Link to='/login'>
@@ -62,7 +62,8 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
     <Menu mode='horizontal' className='menu' selectable={false}>
       <Item key='/host'>
         <Link to='/host'>
-          <HomeOutlined /> Host
+          <HomeOutlined />
+          <span>Host</span>
         </Link>
       </Item>
       {SubMenuDropDown}

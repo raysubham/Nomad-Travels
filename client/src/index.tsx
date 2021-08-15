@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { render } from 'react-dom'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './styles/index.css'
@@ -13,14 +13,41 @@ import {
   User,
   Login,
 } from './modules'
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  useMutation,
+  HttpLink,
+  ApolloLink,
+  concat,
+} from '@apollo/client'
 import './styles/index.css'
-import { Affix, Layout } from 'antd'
+import { Affix, Layout, Spin } from 'antd'
 import { Viewer } from './lib/types'
+import { LOG_IN } from './lib/graphql/mutations'
+import {
+  LogIn as LogInData,
+  LogInVariables,
+} from './lib/graphql/mutations/LogIn/__generated__/LogIn'
+import { AppHeaderSkeleton, ErrorBanner } from './lib/components'
+
+const httpLink = new HttpLink({ uri: '/api' })
+
+const authMiddleware = new ApolloLink((operation, forward) => {
+  const token = sessionStorage.getItem('token')
+  operation.setContext({
+    headers: {
+      'X-CSRF-TOKEN': token || '',
+    },
+  })
+
+  return forward(operation)
+})
 
 const client = new ApolloClient({
-  uri: '/api',
   cache: new InMemoryCache(),
+  link: concat(authMiddleware, httpLink),
 })
 
 const initialViewer: Viewer = {
@@ -34,11 +61,45 @@ const initialViewer: Viewer = {
 const App = () => {
   const [viewer, setViewer] = useState<Viewer>(initialViewer)
 
-  console.log(viewer)
+  const [logIn, { error }] = useMutation<LogInData, LogInVariables>(LOG_IN, {
+    onCompleted: (data) => {
+      if (data && data.logIn) {
+        setViewer(data.logIn)
+
+        if (data.logIn.token) {
+          sessionStorage.setItem('token', data.logIn.token)
+        } else {
+          sessionStorage.removeItem('token')
+        }
+      }
+    },
+  })
+
+  const logInRef = useRef(logIn)
+
+  useEffect(() => {
+    logInRef.current()
+  }, [])
+
+  if (!viewer.didRequest && !error) {
+    return (
+      <Layout className='app-skeleton'>
+        <AppHeaderSkeleton />
+        <div className='app-skeleton__spin-section'>
+          <Spin size='large' tip='Launching Nomad Travels' />
+        </div>
+      </Layout>
+    )
+  }
+
+  const logInErrorBanner = error ? (
+    <ErrorBanner description="Oops! We couldn't verify you. Please Try Again Later" />
+  ) : undefined
 
   return (
     <Router>
       <Layout id='app'>
+        {logInErrorBanner}
         <Affix offsetTop={0} className='app__affix-header'>
           <AppHeader viewer={viewer} setViewer={setViewer} />
         </Affix>

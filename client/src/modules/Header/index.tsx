@@ -21,7 +21,12 @@ export const AppHeader = ({ viewer, setViewer }: Props) => {
           </Link>
         </div>
       </div>
-      <MenuItems viewer={viewer} setViewer={setViewer} />
+      {/* <div className='app-header__search-input'>
+        <input type='text' />
+      </div> */}
+      <div className='app-header__menu-section'>
+        <MenuItems viewer={viewer} setViewer={setViewer} />
+      </div>
     </Header>
   )
 }

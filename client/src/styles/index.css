@@ -6,9 +6,13 @@
   --gamma: blue;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
-  margin: auto;
-  padding: auto;
   font-family: 'Georama', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -60,8 +64,17 @@ body {
 }
 .app-header__menu-section {
   float: right;
-  display: inline-block;
+  width: 100%;
+  flex: 0.15;
 }
+
+@media (max-width: 770px) {
+  .app-header__menu-section {
+    width: 100%;
+    flex: 1;
+  }
+}
+
 .app-header-skeleton {
   display: flex;
   background: #fff;
@@ -655,9 +668,10 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 17.5rem;
 }
 .app__affix-header {
-  z-index: 99;
+  z-index: 999;
 }
 .app__affix-footer {
   position: absolute;
