@@ -4,6 +4,7 @@
   "author": "Subham Ray",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@apollo/client": "^3.4.7",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",

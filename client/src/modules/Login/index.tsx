@@ -31,7 +31,7 @@ export const Login = ({ setViewer }: Props) => {
       onCompleted: (data) => {
         if (data && data.logIn) {
           setViewer(data.logIn)
-          displaySuccessNotification('Log In Successfull 🎉')
+          displaySuccessNotification('Log In Successful 🎉')
         }
       },
     })

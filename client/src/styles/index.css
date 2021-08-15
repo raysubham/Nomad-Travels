@@ -1,10 +1,14 @@
 @import 'antd/dist/antd.css';
 
+:root {
+  --alpha: red;
+  --beta: green;
+  --gamma: blue;
+}
+
 body {
   margin: auto;
   padding: auto;
-  text-align: center;
-  justify-content: center;
   font-family: 'Georama', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -13,7 +17,7 @@ body {
 .menu {
   width: 100%;
   padding: 0 20px;
-  line-height: 63px;
+  line-height: 64px;
   border: 0;
 }
 @media (max-width: 48em) {
@@ -37,7 +41,7 @@ body {
   padding: 0 20px;
 }
 .app-header__logo img {
-  width: 36px;
+  width: 40px;
 }
 .app-header__search-input {
   display: flex;
@@ -56,6 +60,7 @@ body {
 }
 .app-header__menu-section {
   float: right;
+  display: inline-block;
 }
 .app-header-skeleton {
   display: flex;
