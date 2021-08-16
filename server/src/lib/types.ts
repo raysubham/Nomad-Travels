@@ -51,6 +51,7 @@ export interface User {
   income: number
   listings: ObjectId[]
   bookings: ObjectId[]
+  authorized: boolean
 }
 export interface Booking {
   _id: ObjectId

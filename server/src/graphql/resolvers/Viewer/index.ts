@@ -74,6 +74,7 @@ const LogInViaGoogle = async (
       income: 0,
       listings: [],
       bookings: [],
+      authorized: false,
     })
 
     const newViewerId = addNewViewer.insertedId

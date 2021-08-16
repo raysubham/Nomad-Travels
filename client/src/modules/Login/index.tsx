@@ -3,7 +3,7 @@ import { useApolloClient, useMutation } from '@apollo/client'
 import { Card, Layout, Spin, Typography } from 'antd'
 import { Viewer } from '../../lib/types'
 import { AUTH_URL } from '../../lib/graphql/queries'
-import { AuthUrl as AuthUrlData } from '../../lib/graphql/queries/authUrl/__generated__/AuthUrl'
+import { AuthUrl as AuthUrlData } from '../../lib/graphql/queries/AuthUrl/__generated__/AuthUrl'
 import { LOG_IN } from '../../lib/graphql/mutations'
 import { useEffect, useRef } from 'react'
 import {
