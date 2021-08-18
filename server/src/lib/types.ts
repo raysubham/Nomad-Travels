@@ -41,6 +41,14 @@ export interface Listing {
   price: number
   numOfGuests: number
 }
+
+export interface Booking {
+  _id: ObjectId
+  listing: ObjectId
+  tenant: string
+  checkIn: string
+  checkOut: string
+}
 export interface User {
   _id: string
   token: string
@@ -51,14 +59,7 @@ export interface User {
   income: number
   listings: ObjectId[]
   bookings: ObjectId[]
-  authorized: boolean
-}
-export interface Booking {
-  _id: ObjectId
-  listing: ObjectId
-  tenant: string
-  checkIn: string
-  checkOut: string
+  authorized?: boolean
 }
 
 export interface Database {

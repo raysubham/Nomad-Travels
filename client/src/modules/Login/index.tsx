@@ -53,7 +53,7 @@ export const Login = ({ setViewer }: Props) => {
   const HandleAuthorization = async () => {
     try {
       const { data } = await client.query<AuthUrlData>({ query: AUTH_URL })
-      console.log(data)
+
       window.location.href = data.authUrl
     } catch {
       displayErrorMessage(

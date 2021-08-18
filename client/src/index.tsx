@@ -18,8 +18,8 @@ import {
   InMemoryCache,
   ApolloProvider,
   useMutation,
-  HttpLink,
   ApolloLink,
+  HttpLink,
   concat,
 } from '@apollo/client'
 import './styles/index.css'
@@ -34,20 +34,22 @@ import { AppHeaderSkeleton, ErrorBanner } from './lib/components'
 
 const httpLink = new HttpLink({ uri: '/api' })
 
-const authMiddleware = new ApolloLink((operation, forward) => {
+const tokenMiddleware = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem('token')
-  operation.setContext({
+
+  operation.setContext(() => ({
     headers: {
       'X-CSRF-TOKEN': token || '',
     },
-  })
+  }))
 
   return forward(operation)
 })
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: concat(authMiddleware, httpLink),
+  credentials: 'include',
+  link: concat(tokenMiddleware, httpLink),
 })
 
 const initialViewer: Viewer = {
@@ -83,10 +85,14 @@ const App = () => {
 
   if (!viewer.didRequest && !error) {
     return (
-      <Layout className='app-skeleton'> 
+      <Layout className='app-skeleton'>
         <AppHeaderSkeleton />
         <div className='app-skeleton__spin-section'>
-          <Spin size='large' tip='Launching Nomad Travels' />
+          <Spin
+            style={{ color: 'var(--gamma' }}
+            size='large'
+            tip='Launching Nomad Travels'
+          />
         </div>
       </Layout>
     )
@@ -126,11 +132,9 @@ const App = () => {
 }
 
 render(
-  <React.StrictMode>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </React.StrictMode>,
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
   document.getElementById('main')
 )
 

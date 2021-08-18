@@ -37,7 +37,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 
   const SubMenuDropDown =
     viewer.id && viewer.avatar ? (
-      <SubMenu title={<Avatar src={viewer.avatar} />}>
+      <SubMenu title={<Avatar src={viewer.avatar} />} key='profile-dropdown '>
         <Item key='/user'>
           <Link to={`/user/${viewer.id}`} />
           <UserOutlined />
@@ -53,7 +53,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
     ) : (
       <Item key='/login'>
         <Link to='/login'>
-          <Button type='primary'>Sign In </Button>
+          <Button>Sign In </Button>
         </Link>
       </Item>
     )

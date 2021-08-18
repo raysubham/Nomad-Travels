@@ -19,7 +19,7 @@ const LogInViaGoogle = async (
 ): Promise<User | undefined> => {
   const { user } = await GoogleAuth.logIn(code)
   if (!user) {
-    throw new Error('Oops! Failed to Login In!')
+    throw new Error('Oops! Google Login In failed!')
   }
 
   const userNamesList = user.names && user.names.length ? user.names : null
@@ -74,7 +74,6 @@ const LogInViaGoogle = async (
       income: 0,
       listings: [],
       bookings: [],
-      authorized: false,
     })
 
     const newViewerId = addNewViewer.insertedId

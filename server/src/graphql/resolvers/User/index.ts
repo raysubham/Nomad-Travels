@@ -1,6 +1,6 @@
 import { Request } from 'express'
 import { Database, User } from '../../../lib/types'
-import { authorizedUser } from '../../../lib/utils'
+import { isAuthorized } from '../../../lib/utils'
 import {
   UserArgs,
   UserBookingsArgs,
@@ -22,7 +22,7 @@ export const UserResolvers = {
           throw new Error('User not found')
         }
 
-        const viewer = await authorizedUser(db, req)
+        const viewer = await isAuthorized(db, req)
 
         if (viewer && viewer._id === user._id) {
           user.authorized = true
@@ -49,20 +49,21 @@ export const UserResolvers = {
       { db }: { db: Database }
     ): Promise<UserBookingsData | null> => {
       try {
-        if (!user.authorized) {
-          return null
-        }
+        // if (!user.authorized) {
+        //   return null
+        // }
 
         const data: UserBookingsData = { total: 0, result: [] }
 
-        const bookingsCursor = db.bookings.find({
+        let bookingsCursor = db.bookings.find({
           _id: { $in: user.bookings },
         })
 
-        bookingsCursor.skip(page > 0 ? (page - 1) * limit : 0)
-        bookingsCursor.limit(limit)
-
         data.total = await bookingsCursor.count()
+
+        bookingsCursor = bookingsCursor.skip(page > 0 ? (page - 1) * limit : 0)
+        bookingsCursor = bookingsCursor.limit(limit)
+
         data.result = await bookingsCursor.toArray()
 
         return data
@@ -78,14 +79,15 @@ export const UserResolvers = {
       try {
         const data: UserListingsData = { total: 0, result: [] }
 
-        const listingsCursor = db.bookings.find({
+        let listingsCursor = db.listings.find({
           _id: { $in: user.listings },
         })
 
-        listingsCursor.skip(page > 0 ? (page - 1) * limit : 0)
-        listingsCursor.limit(limit)
-
         data.total = await listingsCursor.count()
+
+        listingsCursor = listingsCursor.skip(page > 0 ? (page - 1) * limit : 0)
+        listingsCursor = listingsCursor.limit(limit)
+
         data.result = await listingsCursor.toArray()
 
         return data
