@@ -19,6 +19,7 @@
     "apollo": "^2.33.4",
     "dom": "^0.0.3",
     "graphql": "^15.5.1",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-router-dom": "^5.2.0",
@@ -33,7 +34,7 @@
     "eject": "react-scripts eject",
     "codegen-schema": "apollo service:download --endpoint=http://localhost:1177/api graphql-schema.json",
     "codegen-generate": "apollo codegen:generate --localSchemaFile=graphql-schema.json --globalTypesFile=./src/lib/graphql/globalTypes.ts --target=typescript --includes=src/**/*.ts --tagName=gql",
-    "codegen":"yarn codegen-schema && yarn codegen-generate"
+    "codegen": "yarn codegen-schema && yarn codegen-generate"
   },
   "eslintConfig": {
     "extends": [

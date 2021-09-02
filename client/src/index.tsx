@@ -36,10 +36,11 @@ const httpLink = new HttpLink({ uri: '/api' })
 
 const tokenMiddleware = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem('token')
+  console.log(token)
 
-  operation.setContext(() => ({
+  operation.setContext(async () => ({
     headers: {
-      'X-CSRF-TOKEN': token || '',
+      'X-CSRF-TOKEN': token || 'heloooooooooo',
     },
   }))
 
@@ -48,7 +49,6 @@ const tokenMiddleware = new ApolloLink((operation, forward) => {
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  credentials: 'include',
   link: concat(tokenMiddleware, httpLink),
 })
 

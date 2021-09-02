@@ -12,6 +12,14 @@
   box-sizing: border-box;
 }
 
+/* html {
+  filter: invert(1) contrast(0.95) saturate(0.5) hue-rotate(180deg);
+} */
+
+/* img {
+  filter: invert(1);
+} */
+
 body {
   font-family: 'Georama', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -35,6 +43,10 @@ button.ant-btn {
   background-color: var(--alpha);
   border: none;
 }
+
+.ant-picker-input input {
+  min-width: 240px;
+}
 /* button.ant-btn :hover {
   color: var(--alpha);
   background-color: var(--beta);
@@ -43,6 +55,14 @@ button.ant-btn {
 
 svg {
   color: var(--alpha);
+}
+
+.listing-page {
+  display: flex;
+  justify-content: center;
+  margin: auto 24px;
+  margin-top: 50px;
+  width: 100%;
 }
 
 .ant-menu-horizontal,
@@ -56,14 +76,9 @@ svg {
 }
 
 .ant-spin-text {
-  color: var(--beta);
+  color: var(--alpha);
 }
 
-.ant-menu-horizontal,
-.ant-menu-item::after,
-.ant-menu-submenu::after {
-  border: none !important;
-}
 .app-header {
   display: flex;
   background: #fff;
@@ -357,7 +372,7 @@ svg {
   font-size: 13px;
 }
 .listing-booking {
-  max-width: 400px;
+  min-width: 500px;
   margin: 0 auto;
   display: block;
 }
@@ -441,7 +456,7 @@ svg {
   }
 }
 .listing-details__title.ant-typography {
-  margin-top: 5px !important;
+  margin-top: 10px !important;
   margin-bottom: 5px;
 }
 .listing-details__title.ant-typography span {

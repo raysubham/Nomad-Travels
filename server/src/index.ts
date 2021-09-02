@@ -27,7 +27,7 @@ const startServer = async (app: Application) => {
   })
 
   app.get('/token', (req, res) => {
-    console.log(req.headers)
+    console.log(req.headers['X-CSRF-TOKEN'])
     res.send('ok')
   })
 }
