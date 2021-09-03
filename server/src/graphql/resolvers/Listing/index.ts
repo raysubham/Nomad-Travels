@@ -1,6 +1,13 @@
 import { ObjectId } from 'mongodb'
 import { Database, Listing, User } from '../../../lib/types'
-import { ListingArgs, ListingBookingsArgs, ListingBookingsData } from './types'
+import {
+  ListingArgs,
+  ListingBookingsArgs,
+  ListingBookingsData,
+  ListingsArgs,
+  ListingsData,
+  ListingsFilter,
+} from './types'
 
 export const listingResolvers = {
   Query: {
@@ -23,6 +30,37 @@ export const listingResolvers = {
         return listing
       } catch (error) {
         throw new Error(`Failed to fetch listing: ${error}`)
+      }
+    },
+    listings: async (
+      _root: undefined,
+      { filter, limit, page }: ListingsArgs,
+      { db }: { db: Database }
+    ): Promise<ListingsData> => {
+      try {
+        const listingsData: ListingsData = {
+          total: 0,
+          result: [],
+        }
+        let listingsCursor = await db.listings.find({})
+
+        listingsData.total = await listingsCursor.count()
+
+        if (filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
+          listingsCursor = listingsCursor.sort({ price: 1 })
+        }
+        if (filter && filter === ListingsFilter.PRICE_HIGH_TO_LOW) {
+          listingsCursor = listingsCursor.sort({ price: -1 })
+        }
+
+        listingsCursor = listingsCursor.skip(page > 0 ? (page - 1) * limit : 0)
+        listingsCursor = listingsCursor.limit(limit)
+
+        listingsData.result = await listingsCursor.toArray()
+
+        return listingsData
+      } catch (error) {
+        throw new Error(`Failed to fetch listings:${error}`)
       }
     },
   },

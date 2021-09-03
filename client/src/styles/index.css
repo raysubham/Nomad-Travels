@@ -40,7 +40,7 @@ body {
 
 button.ant-btn {
   color: white;
-  background-color: var(--alpha);
+  /* background-color: var(--alpha); */
   border: none;
 }
 
@@ -53,9 +53,9 @@ button.ant-btn {
   border: none;
 } */
 
-svg {
+/* svg {
   color: var(--alpha);
-}
+} */
 
 .listing-page {
   display: flex;
@@ -79,6 +79,17 @@ svg {
   color: var(--alpha);
 }
 
+.menu {
+  width: 100%;
+  padding: 0 20px;
+  line-height: 63px;
+  border: 0;
+}
+@media (max-width: 48em) {
+  .menu {
+    padding: 0;
+  }
+}
 .app-header {
   display: flex;
   background: #fff;
@@ -95,7 +106,7 @@ svg {
   padding: 0 20px;
 }
 .app-header__logo img {
-  width: 40px;
+  width: 36px;
 }
 .app-header__search-input {
   display: flex;
@@ -114,17 +125,7 @@ svg {
 }
 .app-header__menu-section {
   float: right;
-  width: 100%;
-  flex: 0.2;
 }
-
-@media (max-width: 770px) {
-  .app-header__menu-section {
-    width: 100%;
-    flex: 1;
-  }
-}
-
 .app-header-skeleton {
   display: flex;
   background: #fff;
@@ -166,7 +167,7 @@ svg {
 }
 .listing-card__cover-img {
   width: 100%;
-  height: 175px;
+  height: 195px;
   background-size: cover;
   background-position: 50%;
 }
@@ -224,6 +225,7 @@ svg {
 }
 .home-hero__search {
   max-width: 600px;
+  justify-content: center;
 }
 .home-hero__title.ant-typography {
   color: #1d226c;
@@ -234,10 +236,13 @@ svg {
 }
 .home-hero__cards {
   padding-top: 60px;
+  display: flex;
+  justify-content: space-between;
 }
 .home-hero__cards .ant-card {
   background: transparent;
   cursor: pointer;
+  width: 320px;
 }
 .home-hero__cards .ant-card-cover:before {
   content: '';
@@ -372,7 +377,7 @@ svg {
   font-size: 13px;
 }
 .listing-booking {
-  min-width: 500px;
+  max-width: 400px;
   margin: 0 auto;
   display: block;
 }
@@ -456,7 +461,7 @@ svg {
   }
 }
 .listing-details__title.ant-typography {
-  margin-top: 10px !important;
+  margin-top: 5px !important;
   margin-bottom: 5px;
 }
 .listing-details__title.ant-typography span {
@@ -718,10 +723,9 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 17.5rem;
 }
 .app__affix-header {
-  z-index: 999;
+  z-index: 99;
 }
 .app__affix-footer {
   position: absolute;
