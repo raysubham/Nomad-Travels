@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import { Request, Response } from 'express'
-import { GoogleAuth } from '../../../lib/api'
+import { Google } from '../../../lib/api'
 import { Database, User, Viewer } from '../../../lib/types'
 import { LogInArgs } from './types'
 
@@ -17,7 +17,7 @@ const LogInViaGoogle = async (
   db: Database,
   res: Response
 ): Promise<User | undefined> => {
-  const { user } = await GoogleAuth.logIn(code)
+  const { user } = await Google.logIn(code)
   if (!user) {
     throw new Error('Oops! Google Login In failed!')
   }
@@ -117,7 +117,7 @@ export const ViewerResolvers = {
   Query: {
     authUrl: async (): Promise<string> => {
       try {
-        return GoogleAuth.authUrl
+        return Google.authUrl
       } catch (error) {
         throw new Error(`Failed to get Google Auth Url:${error}`)
       }

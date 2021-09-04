@@ -16,6 +16,7 @@ export const HomeListingsSkeleton = () => {
           <List.Item>
             <Card
               loading
+              className='home-listings-skelton__card'
               cover={
                 <div
                   style={{

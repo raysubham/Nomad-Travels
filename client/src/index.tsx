@@ -48,8 +48,8 @@ const tokenMiddleware = new ApolloLink((operation, forward) => {
 })
 
 const client = new ApolloClient({
-  cache: new InMemoryCache(),
   link: concat(tokenMiddleware, httpLink),
+  cache: new InMemoryCache(),
 })
 
 const initialViewer: Viewer = {

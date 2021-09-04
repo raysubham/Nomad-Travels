@@ -1,8 +1,15 @@
 import gql from 'graphql-tag'
 
 export const LISTINGS = gql`
-  query Listings($filter: ListingsFilter!, $limit: Int!, $page: Int!) {
-    listings(filter: $filter, limit: $limit, page: $page) {
+  query Listings(
+    $location: String
+    $filter: ListingsFilter!
+    $limit: Int!
+    $page: Int!
+  ) {
+    listings(location: $location, filter: $filter, limit: $limit, page: $page) {
+      region
+      total
       result {
         id
         title

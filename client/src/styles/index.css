@@ -539,7 +539,8 @@ button.ant-btn {
     float: none;
   }
 }
-.listings-skeleton__card {
+
+.listings-skeleton__card .ant-card {
   margin: 5px 0;
 }
 .listings-skeleton__card-cover-img {

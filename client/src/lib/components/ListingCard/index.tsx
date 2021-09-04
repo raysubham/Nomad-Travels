@@ -30,10 +30,12 @@ export const ListingCard = ({ listing }: Props) => {
             }}
           />
         }>
-        <div className='listing-card__details' style={{ textAlign: 'center' }}>
+        <div
+          className='listing-card__details'
+          style={{ textAlign: 'center', width: '275px' }}>
           <div className='listing-card__description'>
             <Title level={4} className='listing-card__price'>
-              {price} <span>/ day</span>
+              ₹ {price} <span>/ day</span>
             </Title>
             <Text strong ellipsis className='listing-card__title'>
               {title}

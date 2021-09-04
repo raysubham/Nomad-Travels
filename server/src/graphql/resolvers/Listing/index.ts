@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb'
+import { Google } from '../../../lib/api'
 import { Database, Listing, User } from '../../../lib/types'
 import {
   ListingArgs,
@@ -7,6 +8,7 @@ import {
   ListingsArgs,
   ListingsData,
   ListingsFilter,
+  ListingsQuery,
 } from './types'
 
 export const listingResolvers = {
@@ -34,15 +36,35 @@ export const listingResolvers = {
     },
     listings: async (
       _root: undefined,
-      { filter, limit, page }: ListingsArgs,
+      { location, filter, limit, page }: ListingsArgs,
       { db }: { db: Database }
     ): Promise<ListingsData> => {
       try {
+        const query: ListingsQuery = {}
         const listingsData: ListingsData = {
+          region: null,
           total: 0,
           result: [],
         }
-        let listingsCursor = await db.listings.find({})
+
+        if (location) {
+          const { country, admin, city } = await Google.geocode(location)
+
+          if (country) {
+            query.country = country
+          } else {
+            throw new Error('No Country Found!')
+          }
+
+          if (admin) query.admin = admin
+          if (city) query.city = city
+
+          const cityText = city ? `${city}, ` : ''
+          const adminText = admin ? `${admin}, ` : ''
+          listingsData.region = `${cityText}${adminText}${country}`
+        }
+
+        let listingsCursor = await db.listings.find(query)
 
         listingsData.total = await listingsCursor.count()
 
