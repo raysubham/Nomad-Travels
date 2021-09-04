@@ -46,7 +46,7 @@ export const UserListings = ({
   return (
     <div className='user-listings'>
       <Title level={4} className='user-listings__title'>
-        Your Listings
+        {userName} Listings
       </Title>
       <Paragraph className='user-listings__description  '>
         All of {userName} available listings!

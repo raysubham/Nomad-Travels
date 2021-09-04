@@ -8,7 +8,15 @@ interface Props {
 
 const { Paragraph, Text, Title } = Typography
 
+const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_KALzWNt3h1WIE8vs77BMsrh8DdBCpRvd&scope=read_write`
+
+
+
 export const UserProfile = ({ user, viewerIsUser }: Props) => {
+  const redirectToStripe = () => {
+    window.location.href = stripeAuthUrl
+  }
+
   const additionalDetails = (
     <>
       <Divider />
@@ -17,7 +25,10 @@ export const UserProfile = ({ user, viewerIsUser }: Props) => {
         <Paragraph>
           Interested in becoming a Nomad Host? Register with Stripe Now!
         </Paragraph>
-        <Button type='primary' className='user-profile__details-cta'>
+        <Button
+          type='primary'
+          className='user-profile__details-cta'
+          onClick={redirectToStripe}>
           Connect with Stripe
         </Button>
         <Paragraph type='secondary'>

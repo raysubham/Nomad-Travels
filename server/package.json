@@ -15,7 +15,8 @@
     "googleapis": "^84.0.0",
     "graphql": "^15.5.1",
     "lodash.merge": "^4.6.2",
-    "mongodb": "^4.1.0"
+    "mongodb": "^4.1.0",
+    "stripe": "^8.174.0"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",

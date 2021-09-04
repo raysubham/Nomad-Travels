@@ -1,8 +1,9 @@
 import crypto from 'crypto'
 import { Request, Response } from 'express'
-import { Google } from '../../../lib/api'
+import { Google, Stripe } from '../../../lib/api'
 import { Database, User, Viewer } from '../../../lib/types'
-import { LogInArgs } from './types'
+import { isAuthorized } from '../../../lib/utils'
+import { connectStripeArgs, LogInArgs } from './types'
 
 const cookieOptions = {
   httpOnly: true,
@@ -160,6 +161,72 @@ export const ViewerResolvers = {
         return { didRequest: true }
       } catch (error) {
         throw new Error(`Failed to log out:${error}`)
+      }
+    },
+    connectStripe: async (
+      _root: undefined,
+      { input }: connectStripeArgs,
+      { db, req }: { db: Database; req: Request }
+    ): Promise<Viewer> => {
+      try {
+        const { code } = input
+
+        let viewer = await isAuthorized(db, req)
+        if (!viewer) throw new Error('Viewer not found!')
+
+        const wallet = await Stripe.connect(code)
+
+        const updateResponse = await db.users.findOneAndUpdate(
+          { _id: viewer._id },
+          { $set: { walletId: wallet.stripe_user_id } }
+        )
+
+        if (!updateResponse.value) {
+          throw new Error('viewer could not be updated!')
+        }
+
+        viewer = updateResponse.value
+
+        return {
+          _id: viewer._id,
+          token: viewer.token,
+          avatar: viewer.token,
+          walletId: viewer.walletId,
+          didRequest: true,
+        }
+      } catch (error) {
+        throw new Error(`Failed to connect with stripe:${error}`)
+      }
+    },
+    disconnectStripe: async (
+      _root: undefined,
+      { _args }: Record<string, never>,
+      { db, req }: { db: Database; req: Request }
+    ): Promise<Viewer> => {
+      try {
+        let viewer = await isAuthorized(db, req)
+        if (!viewer) throw new Error('Viewer not found!')
+
+        const updateResponse = await db.users.findOneAndUpdate(
+          { _id: viewer._id },
+          { $set: { walletId: undefined } }
+        )
+
+        if (!updateResponse.value) {
+          throw new Error('viewer could not be updated!')
+        }
+
+        viewer = updateResponse.value
+
+        return {
+          _id: viewer._id,
+          token: viewer.token,
+          avatar: viewer.token,
+          walletId: viewer.walletId,
+          didRequest: true,
+        }
+      } catch (error) {
+        throw new Error(`Failed to disconnect with stripe:${error}`)
       }
     },
   },

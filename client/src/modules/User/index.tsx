@@ -43,7 +43,7 @@ export const User = ({
   const viewerIsUser = viewer.id === match.params.id
 
   const showName = user?.name.split(' ')[0]
-  const userName = viewerIsUser ? 'your' : `${showName}'s`
+  const userName = viewerIsUser ? 'Your' : `${showName}'s`
 
   const userListings = user ? user.listings : null
   const userBookings = user ? user.bookings : null

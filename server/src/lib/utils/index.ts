@@ -5,12 +5,12 @@ export const isAuthorized = async (
   db: Database,
   req: Request
 ): Promise<User | undefined> => {
-  const token = req.get('X-CSRF-TOKEN')
+  // const token = req.get('X-CSRF-TOKEN')
   const viewerId = req.signedCookies.viewer as string
 
   const viewer = await db.users.findOne({
     _id: viewerId,
-    token,
+    // token,
   })
   return viewer
 }
