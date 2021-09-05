@@ -1,7 +1,12 @@
+import { error } from 'console'
+import { Request } from 'express'
 import { ObjectId } from 'mongodb'
 import { Google } from '../../../lib/api'
-import { Database, Listing, User } from '../../../lib/types'
+import { Database, Listing, ListingType, User } from '../../../lib/types'
+import { isAuthorized } from '../../../lib/utils'
 import {
+  HostListingArgs,
+  HostListingInput,
   ListingArgs,
   ListingBookingsArgs,
   ListingBookingsData,
@@ -10,6 +15,26 @@ import {
   ListingsFilter,
   ListingsQuery,
 } from './types'
+
+const verifyHostListingInput = ({
+  title,
+  description,
+  price,
+  type,
+}: HostListingInput) => {
+  if (title.length > 100) {
+    throw new Error('Title must be less than 100 characters')
+  }
+  if (description.length > 500) {
+    throw new Error('Description must be less than 5000 characters')
+  }
+  if (type !== ListingType.Apartment && type !== ListingType.House) {
+    throw new Error('Listing Type must be either an Apartment or House')
+  }
+  if (price < 0) {
+    throw new Error('Price must always be greater than 0')
+  }
+}
 
 export const listingResolvers = {
   Query: {
@@ -83,6 +108,59 @@ export const listingResolvers = {
         return listingsData
       } catch (error) {
         throw new Error(`Failed to fetch listings:${error}`)
+      }
+    },
+  },
+  Mutation: {
+    hostListing: async (
+      _root: undefined,
+      { input }: HostListingArgs,
+      { db, req }: { db: Database; req: Request }
+    ): Promise<Listing | undefined> => {
+      try {
+        verifyHostListingInput(input)
+
+        const viewer = await isAuthorized(db, req)
+        if (!viewer) {
+          throw new Error('Viewer cannot be found')
+        }
+
+        const { country, city, admin } = await Google.geocode(input.address)
+        if (!country || !city || !admin) {
+          throw new Error('invalid address input')
+        }
+
+        const insertedNewListing = await db.listings.insertOne({
+          _id: new ObjectId(),
+          ...input,
+          bookings: [],
+          bookingsIndex: {},
+          country,
+          admin,
+          city,
+          host: viewer._id,
+        })
+
+        if (insertedNewListing.insertedId) {
+          await db.users.updateOne(
+            {
+              _id: viewer._id,
+            },
+            {
+              $push: {
+                listings: insertedNewListing.insertedId,
+              },
+            }
+          )
+        }
+
+        const newListing = await db.listings.findOne({
+          _id: insertedNewListing.insertedId,
+        })
+
+        return newListing
+      } catch (error) {
+        throw new Error('Failed to add listing!')
       }
     },
   },

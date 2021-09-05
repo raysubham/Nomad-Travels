@@ -41,7 +41,7 @@ export const Login = ({ setViewer }: Props) => {
   const logInRef = useRef(logIn)
 
   useEffect(() => {
-    const code = new URLSearchParams(window.location.search).get('code')
+    const code = new URLSearchParams(window.location.href).get('code')
 
     if (code) {
       logInRef.current({

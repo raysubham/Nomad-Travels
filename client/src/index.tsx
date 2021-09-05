@@ -12,6 +12,7 @@ import {
   NotFound,
   User,
   Login,
+  Stripe,
 } from './modules'
 import {
   ApolloClient,
@@ -117,12 +118,21 @@ const App = () => {
           <Route
             exact
             path='/user/:id'
-            render={(props) => <User {...props} viewer={viewer} />}
+            render={(props) => (
+              <User {...props} viewer={viewer} setViewer={setViewer} />
+            )}
           />
           <Route
             exact
             path='/login'
             render={(props) => <Login {...props} setViewer={setViewer} />}
+          />
+          <Route
+            exact
+            path='/stripe'
+            render={(props) => (
+              <Stripe {...props} viewer={viewer} setViewer={setViewer} />
+            )}
           />
           <Route component={NotFound} />
         </Switch>
