@@ -37,7 +37,6 @@ const httpLink = new HttpLink({ uri: '/api' })
 
 const tokenMiddleware = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem('token')
-  console.log(token)
 
   operation.setContext(async () => ({
     headers: {
@@ -112,7 +111,11 @@ const App = () => {
         </Affix>
         <Switch>
           <Route exact path='/' component={Home} />
-          <Route exact path='/host' component={Host} />
+          <Route
+            exact
+            path='/host'
+            render={(props) => <Host {...props} viewer={viewer} />}
+          />
           <Route exact path='/listing/:id' component={Listing} />
           <Route exact path='/listings/:location?' component={Listings} />
           <Route

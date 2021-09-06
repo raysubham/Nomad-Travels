@@ -34,8 +34,6 @@ export const Home = ({ history }: RouteComponentProps) => {
     }
   )
 
-  console.log(data)
-
   const onSearch = (value: string) => {
     const searchValue = value.trim()
     if (searchValue) {

@@ -1,7 +1,6 @@
-import { error } from 'console'
 import { Request } from 'express'
 import { ObjectId } from 'mongodb'
-import { Google } from '../../../lib/api'
+import { Cloudinary, Google } from '../../../lib/api'
 import { Database, Listing, ListingType, User } from '../../../lib/types'
 import { isAuthorized } from '../../../lib/utils'
 import {
@@ -117,51 +116,50 @@ export const listingResolvers = {
       { input }: HostListingArgs,
       { db, req }: { db: Database; req: Request }
     ): Promise<Listing | undefined> => {
-      try {
-        verifyHostListingInput(input)
+      verifyHostListingInput(input)
 
-        const viewer = await isAuthorized(db, req)
-        if (!viewer) {
-          throw new Error('Viewer cannot be found')
-        }
-
-        const { country, city, admin } = await Google.geocode(input.address)
-        if (!country || !city || !admin) {
-          throw new Error('invalid address input')
-        }
-
-        const insertedNewListing = await db.listings.insertOne({
-          _id: new ObjectId(),
-          ...input,
-          bookings: [],
-          bookingsIndex: {},
-          country,
-          admin,
-          city,
-          host: viewer._id,
-        })
-
-        if (insertedNewListing.insertedId) {
-          await db.users.updateOne(
-            {
-              _id: viewer._id,
-            },
-            {
-              $push: {
-                listings: insertedNewListing.insertedId,
-              },
-            }
-          )
-        }
-
-        const newListing = await db.listings.findOne({
-          _id: insertedNewListing.insertedId,
-        })
-
-        return newListing
-      } catch (error) {
-        throw new Error('Failed to add listing!')
+      const viewer = await isAuthorized(db, req)
+      if (!viewer) {
+        throw new Error('Viewer cannot be found')
       }
+
+      const { country, city, admin } = await Google.geocode(input.address)
+      if (!country || !city || !admin) {
+        throw new Error('invalid address input')
+      }
+
+      const imageUrl = await Cloudinary.upload(input.image)
+
+      const insertedNewListing = await db.listings.insertOne({
+        _id: new ObjectId(),
+        ...input,
+        image: imageUrl,
+        bookings: [],
+        bookingsIndex: {},
+        country,
+        admin,
+        city,
+        host: viewer._id,
+      })
+
+      if (insertedNewListing.insertedId) {
+        await db.users.updateOne(
+          {
+            _id: viewer._id,
+          },
+          {
+            $push: {
+              listings: insertedNewListing.insertedId,
+            },
+          }
+        )
+      }
+
+      const newListing = await db.listings.findOne({
+        _id: insertedNewListing.insertedId,
+      })
+
+      return newListing
     },
   },
   Listing: {

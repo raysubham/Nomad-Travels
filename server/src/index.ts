@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import cors from 'cors'
+import bodyParser from 'body-parser'
 import express, { Application } from 'express'
 import cookieParser from 'cookie-parser'
 import { ApolloServer } from 'apollo-server-express'
@@ -12,6 +13,7 @@ const port = process.env.PORT
 const startServer = async (app: Application) => {
   app.use(cors({ origin: 'http://localhost:3000/', credentials: true }))
   const db = await connectDatabase()
+  app.use(express.json({ limit: '2mb' }))
   app.use(cookieParser(process.env.COOKIE_SECRET))
   const server = new ApolloServer({
     typeDefs,
