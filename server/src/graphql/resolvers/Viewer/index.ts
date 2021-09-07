@@ -1,5 +1,6 @@
 import crypto from 'crypto'
 import { Request, Response } from 'express'
+import { translate_v3 } from 'googleapis'
 import { Google, Stripe } from '../../../lib/api'
 import { Database, User, Viewer } from '../../../lib/types'
 import { isAuthorized } from '../../../lib/utils'
@@ -59,6 +60,9 @@ const LogInViaGoogle = async (
         email: userEmail,
         avatar: userAvatar,
         token,
+        income: 0,
+        listings: [],
+        bookings: [],
       },
     }
   )
@@ -85,6 +89,7 @@ const LogInViaGoogle = async (
     ...cookieOptions,
     maxAge: 365 * 24 * 60 * 60 * 1000,
   })
+
   return viewer
 }
 
@@ -200,7 +205,7 @@ export const ViewerResolvers = {
     },
     disconnectStripe: async (
       _root: undefined,
-      { _args }: Record<string, never>,
+      _args: Record<string, never>,
       { db, req }: { db: Database; req: Request }
     ): Promise<Viewer> => {
       try {

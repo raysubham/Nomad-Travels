@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { Listing } from '../../../../lib/graphql/queries/Listing/__generated__/Listing'
 
 interface Props {
+  viewerIsNotListingHost: boolean
   listingBookings: Listing['listing']['bookings']
   limit: number
   bookingsPage: number
@@ -13,6 +14,7 @@ interface Props {
 const { Title, Text } = Typography
 
 export const ListingBookings = ({
+  viewerIsNotListingHost,
   listingBookings,
   limit,
   bookingsPage,
@@ -71,5 +73,5 @@ export const ListingBookings = ({
     </div>
   ) : null
 
-  return listingBookingsElement
+  return viewerIsNotListingHost ? null : listingBookingsElement
 }

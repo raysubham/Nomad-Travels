@@ -1,8 +1,14 @@
 import { Button, DatePicker, Card, Divider, Typography } from 'antd'
 import moment, { Moment } from 'moment'
+import { Listing as ListingData } from '../../../../lib/graphql/queries/Listing/__generated__/Listing'
+import { Viewer } from '../../../../lib/types'
 import { displayErrorMessage } from '../../../../lib/utils'
+import { BookingsIndex } from './types'
 
 interface Props {
+  viewer: Viewer
+  host: ListingData['listing']['host']
+  bookingsIndex: ListingData['listing']['bookingsIndex']
   price: number
   checkInDate: Moment | null
   checkOutDate: Moment | null
@@ -10,21 +16,38 @@ interface Props {
   setCheckOutDate: (checkOutDate: Moment | null) => void
 }
 
-const { Paragraph, Title } = Typography
+const { Paragraph, Title, Text } = Typography
 
 export const ListingCreateBooking = ({
+  viewer,
+  host,
+  bookingsIndex,
   price,
   checkInDate,
   checkOutDate,
   setCheckInDate,
   setCheckOutDate,
 }: Props) => {
+  const bookingsIndexJSON: BookingsIndex = JSON.parse(bookingsIndex)
+
+  const dateIsBooked = (currentDate: Moment) => {
+    const year = moment(currentDate).year()
+    const month = moment(currentDate).month()
+    const day = moment(currentDate).date()
+
+    if (bookingsIndexJSON[year] && bookingsIndexJSON[year][month]) {
+      return Boolean(bookingsIndexJSON[year][month][day])
+    } else {
+      return false
+    }
+  }
+
   const disabledDate = (currentDate: Moment) => {
     if (currentDate) {
       const currentDateIsBeforeEndOfToday = currentDate.isBefore(
         moment().endOf('day')
       )
-      return currentDateIsBeforeEndOfToday
+      return currentDateIsBeforeEndOfToday || dateIsBooked(currentDate)
     } else {
       return false
     }
@@ -37,12 +60,43 @@ export const ListingCreateBooking = ({
           `Oops! You can't book any date prior to checkin date!`
         )
       }
+
+      let dateCursor = checkInDate
+
+      while (moment(checkInDate).isBefore(selectedCheckOutDate, 'days')) {
+        const year = moment(dateCursor).year()
+        const month = moment(dateCursor).month()
+        const day = moment(dateCursor).date()
+
+        if (
+          bookingsIndexJSON[year] &&
+          bookingsIndexJSON[year][month] &&
+          bookingsIndexJSON[year][month][day]
+        ) {
+          return displayErrorMessage(
+            'You cannot book a period of time that overlaps with existing bookings! Please try again later!'
+          )
+        }
+      }
     }
     setCheckOutDate(selectedCheckOutDate)
   }
 
-  const checkOutInputDisabled = !checkInDate
-  const buttonDisabled = !checkInDate || !checkOutDate
+  const viewerIsHost = viewer.id === host.id
+
+  const checkInInputDisabled = !viewer.id || viewerIsHost || !host.hasWallet
+  const checkOutInputDisabled = checkInInputDisabled || !checkInDate
+  const buttonDisabled = checkOutInputDisabled || !checkInDate || !checkOutDate
+
+  let buttonMessage = `You won't be charged yet`
+
+  if (!viewer.id) {
+    buttonMessage = `You have to be signed in to book a listing!`
+  } else if (viewerIsHost) {
+    buttonMessage = `You can't book your own listing!`
+  } else if (!host.hasWallet) {
+    buttonMessage = `The host has disconnected from Stripe and thus won't be receiving any payments!`
+  }
 
   return (
     <div className='listing-booking'>
@@ -60,6 +114,7 @@ export const ListingCreateBooking = ({
               value={checkInDate ? checkInDate : undefined}
               onChange={(newDateValue) => setCheckInDate(newDateValue)}
               format={'DD/MM/YYYY'}
+              disabled={checkInInputDisabled}
               disabledDate={disabledDate}
               showToday={false}
               onOpenChange={() => setCheckOutDate(null)}
@@ -87,6 +142,9 @@ export const ListingCreateBooking = ({
           className='listing-booking__card-cta'>
           Request to book
         </Button>
+        <Text type='secondary' mark>
+          {buttonMessage}
+        </Text>
       </Card>
     </div>
   )

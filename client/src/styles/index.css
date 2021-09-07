@@ -38,11 +38,11 @@ body {
   }
 }
 
-button.ant-btn {
+/* button.ant-btn {
   color: white;
-  /* background-color: var(--alpha); */
+  background-color: var(--alpha);
   border: none;
-}
+} */
 
 .ant-picker-input input {
   min-width: 240px;

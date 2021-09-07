@@ -55,12 +55,12 @@ export const User = ({
   const userListings = user ? user.listings : null
   const userBookings = user ? user.bookings : null
 
-  const stripeError = new URLSearchParams(window.location.href).get(
+  const stripeError = new URLSearchParams(window.location.search).get(
     'stripe_error'
   )
 
   const stripeErrorElement = stripeError ? (
-    <ErrorBanner description='We had an issue connecting with stripe. Please try agaain later...' />
+    <ErrorBanner description='We had an issue connecting with stripe. Please try again later...' />
   ) : null
 
   const userProfileElement = user ? (

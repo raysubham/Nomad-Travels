@@ -38,10 +38,8 @@ const httpLink = new HttpLink({ uri: '/api' })
 const tokenMiddleware = new ApolloLink((operation, forward) => {
   const token = sessionStorage.getItem('token')
 
-  operation.setContext(async () => ({
-    headers: {
-      'X-CSRF-TOKEN': token || 'heloooooooooo',
-    },
+  operation.setContext(({ headers = {} }) => ({
+    headers: { ...headers, 'X-CSRF-TOKEN': token || 'tokennn' },
   }))
 
   return forward(operation)
@@ -116,7 +114,6 @@ const App = () => {
             path='/host'
             render={(props) => <Host {...props} viewer={viewer} />}
           />
-          <Route exact path='/listing/:id' component={Listing} />
           <Route exact path='/listings/:location?' component={Listings} />
           <Route
             exact
@@ -124,6 +121,11 @@ const App = () => {
             render={(props) => (
               <User {...props} viewer={viewer} setViewer={setViewer} />
             )}
+          />
+          <Route
+            exact
+            path='/listing/:id'
+            render={(props) => <Listing {...props} viewer={viewer} />}
           />
           <Route
             exact

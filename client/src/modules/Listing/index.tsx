@@ -10,6 +10,7 @@ import {
   Listing as ListingData,
   ListingVariables,
 } from '../../lib/graphql/queries/Listing/__generated__/Listing'
+import { Viewer } from '../../lib/types'
 import {
   ListingBookings,
   ListingCreateBooking,
@@ -20,10 +21,17 @@ interface MatchParams {
   id: string
 }
 
+interface Props {
+  viewer: Viewer
+}
+
 const { Content } = Layout
 const PAGE_LIMIT = 4
 
-export const Listing = ({ match }: RouteComponentProps<MatchParams>) => {
+export const Listing = ({
+  match,
+  viewer,
+}: Props & RouteComponentProps<MatchParams>) => {
   const [bookingsPage, setBookingsPage] = useState(1)
   const [checkInDate, setCheckInDate] = useState<Moment | null>(null)
   const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null)
@@ -58,12 +66,15 @@ export const Listing = ({ match }: RouteComponentProps<MatchParams>) => {
   const listing = data ? data.listing : null
   const listingBookings = listing ? listing.bookings : null
 
+  const viewerIsNotListingHost = viewer.id !== listing?.host.id
+
   const listingDetailsElement = listing ? (
     <ListingDetails listing={listing} />
   ) : null
 
   const listingBookingsElement = listingBookings ? (
     <ListingBookings
+      viewerIsNotListingHost={viewerIsNotListingHost}
       listingBookings={listingBookings}
       limit={PAGE_LIMIT}
       bookingsPage={bookingsPage}
@@ -73,7 +84,10 @@ export const Listing = ({ match }: RouteComponentProps<MatchParams>) => {
 
   const listingCreateBookingElement = listing ? (
     <ListingCreateBooking
+      viewer={viewer}
+      host={listing.host}
       price={listing.price}
+      bookingsIndex={listing.bookingsIndex}
       checkInDate={checkInDate}
       setCheckInDate={setCheckInDate}
       checkOutDate={checkOutDate}

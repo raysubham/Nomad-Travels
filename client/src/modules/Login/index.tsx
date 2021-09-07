@@ -29,19 +29,18 @@ export const Login = ({ setViewer }: Props) => {
   const [logIn, { data: logInData, loading: logInLoading, error: logInError }] =
     useMutation<LogInData, LogInVariables>(LOG_IN, {
       onCompleted: (data) => {
-        if (data && data.logIn) {
+        if (data && data.logIn && data.logIn.token) {
           setViewer(data.logIn)
-          if (data.logIn.token) {
-            sessionStorage.setItem('token', data.logIn.token)
-          }
+          sessionStorage.setItem('token', data.logIn.token)
           displaySuccessNotification('Log In Successful 🎉')
         }
       },
     })
+
   const logInRef = useRef(logIn)
 
   useEffect(() => {
-    const code = new URLSearchParams(window.location.href).get('code')
+    const code = new URLSearchParams(window.location.search).get('code')
 
     if (code) {
       logInRef.current({

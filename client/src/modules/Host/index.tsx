@@ -57,7 +57,7 @@ export const Host = ({ viewer }: Props) => {
     },
     onError: () => {
       displayErrorMessage(
-        'Sorry! We could not create your listing. Please try again later.'
+        `${error}: Sorry! We could not create your listing. Please try again later.`
       )
     },
   })
@@ -81,7 +81,7 @@ export const Host = ({ viewer }: Props) => {
     formRef.current.setFieldsValue({
       name: 'host_form',
     })
-  }, [form])
+  }, [])
 
   // const onChange = (e: any) => {
   //   console.log(e.target.value)
@@ -118,7 +118,7 @@ export const Host = ({ viewer }: Props) => {
       <Content className='host-content'>
         <div className='host__form-header'>
           <Title level={3} className='host__form-title'>
-            Please wait!
+            Please wait 🙂
           </Title>
           <Text type='secondary'>We are creating your listing now!</Text>
         </div>
@@ -277,7 +277,7 @@ export const Host = ({ viewer }: Props) => {
 
         <Item
           label='Image'
-          extra='Images have to be under 1 MB in size and of format JPG/PNG'
+          extra='Images have to be under 1 MB in size and of format JPG/PNG/WEBP'
           name='image'
           rules={[
             {
@@ -330,12 +330,14 @@ export const Host = ({ viewer }: Props) => {
 
 const beforeImageUpload = (file: File) => {
   const fileIsValidImage =
-    file.type === 'image/jpeg' || file.type === 'image/png'
+    file.type === 'image/jpeg' ||
+    file.type === 'image/png' ||
+    file.type === 'image/webp'
   const fileIsValidSize = file.size / 1024 / 1024 < 1
 
   if (!fileIsValidImage) {
     displayErrorMessage(
-      'You are only able to upload valid file sizes JPG/PNG !'
+      'You are only able to upload valid file sizes JPG/PNG/WEBP !'
     )
     return false
   }
