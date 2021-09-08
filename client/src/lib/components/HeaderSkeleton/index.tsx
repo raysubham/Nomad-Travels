@@ -1,6 +1,6 @@
 import { Layout } from 'antd'
 
-import logo from './assets/logo.png'
+import logo from './assets/nomad-logo.png'
 
 const { Header } = Layout
 

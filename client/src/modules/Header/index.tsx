@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom'
 import { Viewer } from '../../lib/types'
 import { displayErrorMessage } from '../../lib/utils'
-import logo from './assets/logo.png'
+import logo from './assets/nomad-logo.png'
 import { MenuItems } from './components'
 
 const { Header } = Layout

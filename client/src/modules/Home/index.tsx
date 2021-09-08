@@ -5,8 +5,8 @@ import { RouteComponentProps } from 'react-router'
 import { displayErrorMessage } from '../../lib/utils'
 import { Link } from 'react-router-dom'
 
-import sfImg from './assets/san-fransisco.jpg'
-import cancunImg from './assets/cancun.jpg'
+import jaipurImg from './assets/jaipur-cover.png'
+import nainitalImg from './assets/nainital-cover.png'
 import { useQuery } from '@apollo/client'
 import { LISTINGS } from '../../lib/graphql/queries'
 
@@ -86,22 +86,22 @@ export const Home = ({ history }: RouteComponentProps) => {
         </Title>
         <Row gutter={12}>
           <Col xs={24} sm={12}>
-            <Link to='/listings/san%20francisco'>
+            <Link to='/listings/jaipur'>
               <div className='home__listings-img-cover'>
                 <img
-                  src={sfImg}
-                  alt='San Francisco'
+                  src={jaipurImg}
+                  alt='Jaipur'
                   className='home__listings-img'
                 />
               </div>
             </Link>
           </Col>
           <Col xs={24} sm={12}>
-            <Link to='/listings/cancun'>
+            <Link to='/listings/nainital'>
               <div className='home__listings-img-cover'>
                 <img
-                  src={cancunImg}
-                  alt='Cancun '
+                  src={nainitalImg}
+                  alt='Nainital'
                   className='home__listings-img'
                 />
               </div>

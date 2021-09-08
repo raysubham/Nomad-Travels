@@ -1,10 +1,10 @@
 import { Card, Col, Input, Row, Typography } from 'antd'
 import { Link } from 'react-router-dom'
 
-import dubaiImg from '../../assets/dubai.jpg'
-import londonImg from '../../assets/london.jpg'
-import losAngelesImg from '../../assets/los-angeles.jpg'
-import torontoImg from '../../assets/toronto.jpg'
+import sikkimImg from '../../assets/sikkim.jpg'
+import goaImg from '../../assets/goa.jpg'
+import manaliImg from '../../assets/manali.jpg'
+import keralaImg from '../../assets/kerala.jpg'
 
 const { Title } = Typography
 const { Search } = Input
@@ -29,28 +29,26 @@ export const HomeBanner = ({ onSearch }: Props) => {
         />
       </div>
       <Row gutter={12} className='home-hero__cards'>
-        <Link to='/listings/dubai'>
+        <Link to='/listings/manali'>
           <Col xs={12} md={6}>
-            <Card cover={<img width={100} src={dubaiImg} alt='dubai' />}>
-              Dubai
+            <Card cover={<img width={100} src={manaliImg} alt='Manali' />}>
+              Manali
             </Card>
           </Col>
         </Link>
-        <Link to='/listings/los%20angeles'>
+        <Link to='/listings/goa'>
           <Col xs={12} md={6}>
-            <Card cover={<img src={losAngelesImg} alt='la' />}>
-              Los Angeles
-            </Card>
+            <Card cover={<img src={goaImg} alt='Goa' />}>Goa</Card>
           </Col>
         </Link>
-        <Link to='/listings/london'>
+        <Link to='/listings/sikkim'>
           <Col xs={0} md={6}>
-            <Card cover={<img src={londonImg} alt='london' />}>London</Card>
+            <Card cover={<img src={sikkimImg} alt='Sikkim' />}>Sikkim</Card>
           </Col>
         </Link>
-        <Link to='/listings/toronto'>
+        <Link to='/listings/kerala'>
           <Col xs={0} md={6}>
-            <Card cover={<img src={torontoImg} alt='toronto' />}>Toronto</Card>
+            <Card cover={<img src={keralaImg} alt='Kerala' />}>Kerala</Card>
           </Col>
         </Link>
       </Row>

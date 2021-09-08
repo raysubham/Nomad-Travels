@@ -63,7 +63,9 @@ export const ListingCreateBooking = ({
 
       let dateCursor = checkInDate
 
-      while (moment(checkInDate).isBefore(selectedCheckOutDate, 'days')) {
+      while (moment(dateCursor).isBefore(selectedCheckOutDate, 'days')) {
+        dateCursor = moment(dateCursor).add(1, 'days')
+
         const year = moment(dateCursor).year()
         const month = moment(dateCursor).month()
         const day = moment(dateCursor).date()

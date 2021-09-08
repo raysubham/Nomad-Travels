@@ -1,7 +1,7 @@
 @import 'antd/dist/antd.css';
 
 :root {
-  --alpha: #e71d36;
+  --alpha: #0504aa;
   --beta: #ed9b40;
   --gamma: #db5461;
 }
@@ -38,24 +38,9 @@ body {
   }
 }
 
-/* button.ant-btn {
-  color: white;
-  background-color: var(--alpha);
-  border: none;
-} */
-
 .ant-picker-input input {
   min-width: 240px;
 }
-/* button.ant-btn :hover {
-  color: var(--alpha);
-  background-color: var(--beta);
-  border: none;
-} */
-
-/* svg {
-  color: var(--alpha);
-} */
 
 .listing-page {
   display: flex;
@@ -63,12 +48,6 @@ body {
   margin: auto 24px;
   margin-top: 50px;
   width: 100%;
-}
-
-.ant-menu-horizontal,
-.ant-menu-item::after,
-.ant-menu-submenu::after {
-  border: none !important;
 }
 
 .ant-spin-dot-item {
@@ -106,7 +85,7 @@ body {
   padding: 0 20px;
 }
 .app-header__logo img {
-  width: 36px;
+  width: 54px;
 }
 .app-header__search-input {
   display: flex;
