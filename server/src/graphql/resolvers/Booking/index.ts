@@ -53,98 +53,96 @@ export const bookingResolvers = {
       { input }: CreateBookingArgs,
       { db, req }: { db: Database; req: Request }
     ): Promise<Booking | undefined> => {
-      try {
-        const { id, source, checkIn, checkOut } = input
+      const { id, source, checkIn, checkOut } = input
 
-        const viewer = await isAuthorized(db, req)
-        if (!viewer) {
-          throw new Error('Viewer cannot be found!')
-        }
+      const viewer = await isAuthorized(db, req)
+      if (!viewer) {
+        throw new Error('Viewer cannot be found!')
+      }
 
-        const listing = await db.listings.findOne({
-          _id: new ObjectId(id),
-        })
-        if (!listing) {
-          throw new Error('Listing cannot be found!')
-        }
+      const listing = await db.listings.findOne({
+        _id: new ObjectId(id),
+      })
+      if (!listing) {
+        throw new Error('Listing cannot be found!')
+      }
 
-        if (listing.host === viewer._id) {
-          throw new Error('Viewer cannot host own listing!')
-        }
+      if (listing.host === viewer._id) {
+        throw new Error('Viewer cannot host own listing!')
+      }
 
-        const checkInDate = new Date(checkIn)
-        const checkOutDate = new Date(checkOut)
+      const checkInDate = new Date(checkIn)
+      const checkOutDate = new Date(checkOut)
 
-        if (checkInDate > checkOutDate) {
-          throw new Error('CheckIn date cannot be before CheckOut date!')
-        }
+      if (checkInDate > checkOutDate) {
+        throw new Error('CheckIn date cannot be before CheckOut date!')
+      }
 
-        const bookingsIndex = resolveBookingsIndex(
-          listing.bookingsIndex,
-          checkIn,
-          checkOut
-        )
+      const bookingsIndex = resolveBookingsIndex(
+        listing.bookingsIndex,
+        checkIn,
+        checkOut
+      )
 
-        const totalPrice =
-          listing.price *
-          ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1)
+      const totalPrice =
+        listing.price *
+        ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1)
 
-        const host = await db.users.findOne({
-          _id: listing.host,
-        })
-        if (!host) {
-          throw new Error('Host cannot be found!')
-        }
-        if (!host.walletId) {
-          throw new Error('Host is not connected to Stripe!')
-        }
+      const host = await db.users.findOne({
+        _id: listing.host,
+      })
+      if (!host) {
+        throw new Error('Host cannot be found!')
+      }
+      if (!host.walletId) {
+        throw new Error('Host is not connected to Stripe!')
+      }
 
-        await Stripe.charge(totalPrice, source, host.walletId)
+      await Stripe.charge(totalPrice, source, host.walletId)
 
-        const insertedNewBooking = await db.bookings.insertOne({
-          _id: new ObjectId(),
-          listing: listing._id,
-          tenant: viewer._id,
-          checkIn,
-          checkOut,
-        })
+      const insertedNewBooking = await db.bookings.insertOne({
+        _id: new ObjectId(),
+        listing: listing._id,
+        tenant: viewer._id,
+        checkIn,
+        checkOut,
+      })
 
-        const booking: Booking | undefined = await db.bookings.findOne({
-          _id: insertedNewBooking.insertedId,
-        })
+      const booking: Booking | undefined = await db.bookings.findOne({
+        _id: insertedNewBooking.insertedId,
+      })
 
-        await db.users.updateOne(
-          {
-            _id: host._id,
+      await db.users.updateOne(
+        {
+          _id: host._id,
+        },
+        {
+          $inc: {
+            income: totalPrice,
           },
-          {
-            $inc: {
-              income: totalPrice,
-            },
-          }
-        )
+        }
+      )
 
-        await db.users.updateOne(
-          {
-            _id: viewer._id,
-          },
-          {
-            $push: { bookings: insertedNewBooking.insertedId },
-          }
-        )
+      await db.users.updateOne(
+        {
+          _id: viewer._id,
+        },
+        {
+          $push: { bookings: insertedNewBooking.insertedId },
+        }
+      )
 
-        await db.listings.updateOne(
-          {
-            _id: listing._id,
-          },
-          {
-            $set: { bookingsIndex },
-            $push: { bookings: insertedNewBooking.insertedId },
-          }
-        )
+      await db.listings.updateOne(
+        {
+          _id: listing._id,
+        },
+        {
+          $set: { bookingsIndex },
+          $push: { bookings: insertedNewBooking.insertedId },
+        }
+      )
 
-        return booking
-      } catch (error) {}
+      return booking
     },
   },
   Booking: {

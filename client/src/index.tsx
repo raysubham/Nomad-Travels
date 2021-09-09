@@ -32,6 +32,8 @@ import {
   LogInVariables,
 } from './lib/graphql/mutations/LogIn/__generated__/LogIn'
 import { AppHeaderSkeleton, ErrorBanner } from './lib/components'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 
 const httpLink = new HttpLink({ uri: '/api' })
 
@@ -100,6 +102,10 @@ const App = () => {
     <ErrorBanner description="Oops! We couldn't verify you. Please Try Again Later" />
   ) : undefined
 
+  const stripeLib = loadStripe(
+    process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY as string
+  )
+
   return (
     <Router>
       <Layout id='app'>
@@ -125,7 +131,11 @@ const App = () => {
           <Route
             exact
             path='/listing/:id'
-            render={(props) => <Listing {...props} viewer={viewer} />}
+            render={(props) => (
+              <Elements stripe={stripeLib}>
+                <Listing {...props} viewer={viewer} />
+              </Elements>
+            )}
           />
           <Route
             exact

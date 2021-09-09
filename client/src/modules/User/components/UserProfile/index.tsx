@@ -19,7 +19,7 @@ interface Props {
 
 const { Paragraph, Text, Title } = Typography
 
-const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=ca_KALzWNt3h1WIE8vs77BMsrh8DdBCpRvd&scope=read_write`
+const stripeAuthUrl = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_STRIPE_CLIENT_ID}&scope=read_write`
 
 export const UserProfile = ({
   user,
