@@ -12,10 +12,6 @@
   box-sizing: border-box;
 }
 
-svg {
-  color: #1890ff;
-}
-
 body {
   font-family: 'Georama', sans-serif;
   -webkit-font-smoothing: antialiased;

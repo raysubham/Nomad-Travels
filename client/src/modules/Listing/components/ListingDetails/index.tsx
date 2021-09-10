@@ -3,6 +3,7 @@ import { Typography, Divider, Avatar, Tag } from 'antd'
 import { Link } from 'react-router-dom'
 
 import { Listing as ListingData } from '../../../../lib/graphql/queries/Listing/__generated__/Listing'
+import { iconColor } from '../../../../lib/utils'
 
 interface ListingDetailsProps {
   listing: ListingData['listing']
@@ -27,7 +28,7 @@ export const ListingDetails = ({ listing }: ListingDetailsProps) => {
           ellipsis
           className='listing-details__city-address'>
           <Link to={`/listings/${city}`}>
-            <EnvironmentOutlined /> {city}
+            <EnvironmentOutlined style={{ color: iconColor }} /> {city}
           </Link>
           <Divider type='vertical' />
           {address}

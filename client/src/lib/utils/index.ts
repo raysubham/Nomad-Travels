@@ -1,5 +1,7 @@
 import { message, notification } from 'antd'
 
+export const iconColor = '#1890ff'
+
 export const displaySuccessNotification = (
   message: string,
   description?: string
