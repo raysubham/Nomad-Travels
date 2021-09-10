@@ -8,6 +8,7 @@ import {
   User as UserData,
   UserVariables,
 } from '../../lib/graphql/queries/User/__generated__/User'
+import { useScrollToTop } from '../../lib/hooks'
 import { Viewer } from '../../lib/types'
 import { UserBookings, UserListings, UserProfile } from './components'
 
@@ -29,6 +30,8 @@ export const User = ({
   setViewer,
   match,
 }: Props & RouteComponentProps<MatchParams>) => {
+  useScrollToTop()
+
   const [listingsPage, setListingsPage] = useState(1)
   const [bookingsPage, setBookingsPage] = useState(1)
 
@@ -41,6 +44,7 @@ export const User = ({
         bookingsPage,
         limit: PAGE_LIMIT,
       },
+      fetchPolicy: 'cache-and-network',
     }
   )
 

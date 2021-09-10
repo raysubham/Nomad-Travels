@@ -10,6 +10,7 @@ import {
   Listing as ListingData,
   ListingVariables,
 } from '../../lib/graphql/queries/Listing/__generated__/Listing'
+import { useScrollToTop } from '../../lib/hooks'
 import { Viewer } from '../../lib/types'
 import {
   ListingBookings,
@@ -33,6 +34,8 @@ export const Listing = ({
   match,
   viewer,
 }: Props & RouteComponentProps<MatchParams>) => {
+  useScrollToTop()
+
   const [bookingsPage, setBookingsPage] = useState(1)
   const [checkInDate, setCheckInDate] = useState<Moment | null>(null)
   const [checkOutDate, setCheckOutDate] = useState<Moment | null>(null)

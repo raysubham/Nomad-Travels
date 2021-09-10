@@ -15,6 +15,7 @@ import {
   ListingsVariables,
 } from '../../lib/graphql/queries/Listings/__generated__/Listings'
 import { ListingsFilter } from '../../lib/graphql/globalTypes'
+import { useScrollToTop } from '../../lib/hooks'
 
 const { Content } = Layout
 const { Title, Paragraph } = Typography
@@ -23,6 +24,8 @@ const PAGE_LIMIT = 4
 const PAGE_NUMBER = 1
 
 export const Home = ({ history }: RouteComponentProps) => {
+  useScrollToTop()
+
   const { data, loading } = useQuery<ListingsData, ListingsVariables>(
     LISTINGS,
     {
@@ -31,6 +34,7 @@ export const Home = ({ history }: RouteComponentProps) => {
         limit: PAGE_LIMIT,
         page: PAGE_NUMBER,
       },
+      fetchPolicy: 'cache-and-network',
     }
   )
 

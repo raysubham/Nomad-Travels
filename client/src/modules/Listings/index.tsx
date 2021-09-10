@@ -11,6 +11,7 @@ import {
   Listings as ListingsData,
   ListingsVariables,
 } from '../../lib/graphql/queries/Listings/__generated__/Listings'
+import { useScrollToTop } from '../../lib/hooks'
 import {
   ListingsFilterComponent,
   ListingsPagination,
@@ -26,6 +27,8 @@ interface MatchParams {
 }
 
 export const Listings = ({ match }: RouteComponentProps<MatchParams>) => {
+  useScrollToTop()
+
   const locationref = useRef(match.params.location)
   const [filter, setFilter] = useState(ListingsFilter.PRICE_LOW_TO_HIGH)
   const [page, setPage] = useState(1)

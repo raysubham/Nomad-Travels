@@ -31,7 +31,7 @@
   },
   "scripts": {
     "dev": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "BUILD_PATH=../server/build/client react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "codegen-schema": "apollo service:download --endpoint=http://localhost:1177/api graphql-schema.json",
@@ -56,5 +56,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:1177"
+  "proxy": "http://localhost:5000"
 }

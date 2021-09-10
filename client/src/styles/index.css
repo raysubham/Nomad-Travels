@@ -12,13 +12,9 @@
   box-sizing: border-box;
 }
 
-/* html {
-  filter: invert(1) contrast(0.95) saturate(0.5) hue-rotate(180deg);
-} */
-
-/* img {
-  filter: invert(1);
-} */
+svg {
+  color: #1890ff;
+}
 
 body {
   font-family: 'Georama', sans-serif;

@@ -16,6 +16,7 @@ import {
 } from '../../lib/utils'
 import { ErrorBanner } from '../../lib/components'
 import { Redirect } from 'react-router-dom'
+import { useScrollToTop } from '../../lib/hooks'
 const { Content } = Layout
 const { Title, Text } = Typography
 
@@ -24,6 +25,8 @@ interface Props {
 }
 
 export const Login = ({ setViewer }: Props) => {
+  useScrollToTop()
+
   const client = useApolloClient()
 
   const [logIn, { data: logInData, loading: logInLoading, error: logInError }] =
