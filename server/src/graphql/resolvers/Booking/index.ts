@@ -86,7 +86,8 @@ export const bookingResolvers = {
 
       const totalPrice =
         listing.price *
-        ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1)
+        ((checkOutDate.getTime() - checkInDate.getTime()) / 86400000 + 1) *
+        100
 
       const host = await db.users.findOne({
         _id: listing.host,

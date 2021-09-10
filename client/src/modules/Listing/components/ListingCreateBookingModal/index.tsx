@@ -82,8 +82,8 @@ export const ListingCreateBookingModal = ({
           input: {
             id,
             source: stripeToken.id,
-            checkIn: moment(checkInDate).format('YYYY=MM-DD'),
-            checkOut: moment(checkOutDate).format('YYYY=MM-DD'),
+            checkIn: moment(checkInDate).format('YYYY-MM-DD'),
+            checkOut: moment(checkOutDate).format('YYYY-MM-DD'),
           },
         },
       })
@@ -91,7 +91,7 @@ export const ListingCreateBookingModal = ({
       displayErrorMessage(
         stripeError && stripeError.message
           ? stripeError.message
-          : `Sorry! We couldn't book the listing. Please try again later`
+          : `Sorry! We couldn't book the listing. Please try again later!`
       )
     }
   }
