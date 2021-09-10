@@ -73,9 +73,6 @@ export const ListingCreateBookingModal = ({
       card as StripeCardElement
     )
 
-    console.log(stripeToken)
-    console.log(stripeError)
-
     if (stripeToken) {
       createBooking({
         variables: {

@@ -27,11 +27,6 @@ const startServer = async (app: Application) => {
   app.listen(port, () => {
     console.log(`[app-server]: http://localhost:${port}`)
   })
-
-  app.get('/token', (req, res) => {
-    console.log(req.headers)
-    res.send('ok')
-  })
 }
 
 startServer(express())
