@@ -71,9 +71,22 @@ export const bookingResolvers = {
         throw new Error('Viewer cannot host own listing!')
       }
 
+      const milliSecondsPerDay = 1000 * 60 * 60 * 24
+      const today = new Date()
       const checkInDate = new Date(checkIn)
       const checkOutDate = new Date(checkOut)
 
+      if (checkInDate.getTime() > (today.getTime() + 90) * milliSecondsPerDay) {
+        throw new Error('Check In date cannot be more than 90 days from today!')
+      }
+      if (
+        checkOutDate.getTime() >
+        (today.getTime() + 90) * milliSecondsPerDay
+      ) {
+        throw new Error(
+          'Check Out date cannot be more than 90 days from today!'
+        )
+      }
       if (checkInDate > checkOutDate) {
         throw new Error('CheckIn date cannot be before CheckOut date!')
       }

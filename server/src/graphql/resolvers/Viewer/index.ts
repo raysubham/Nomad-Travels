@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import { Request, Response } from 'express'
-import { translate_v3 } from 'googleapis'
+
 import { Google, Stripe } from '../../../lib/api'
 import { Database, User, Viewer } from '../../../lib/types'
 import { isAuthorized } from '../../../lib/utils'
@@ -210,7 +210,15 @@ export const ViewerResolvers = {
     ): Promise<Viewer> => {
       try {
         let viewer = await isAuthorized(db, req)
-        if (!viewer) throw new Error('Viewer not found!')
+        if (!viewer || !viewer.walletId)
+          throw new Error(
+            'Viewer cannot be found or has been disconnected with Stripe'
+          )
+
+        const wallet = await Stripe.disconnect(viewer.walletId)
+        if (!wallet) {
+          throw new Error('Stripe disconnect errorr!')
+        }
 
         const updateResponse = await db.users.findOneAndUpdate(
           { _id: viewer._id },

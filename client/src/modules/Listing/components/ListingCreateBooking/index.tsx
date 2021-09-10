@@ -1,4 +1,4 @@
-import { Button, DatePicker, Card, Divider, Typography } from 'antd'
+import { Button, DatePicker, Card, Divider, Typography, Tooltip } from 'antd'
 import moment, { Moment } from 'moment'
 import { Listing as ListingData } from '../../../../lib/graphql/queries/Listing/__generated__/Listing'
 import { Viewer } from '../../../../lib/types'
@@ -49,7 +49,15 @@ export const ListingCreateBooking = ({
       const currentDateIsBeforeEndOfToday = currentDate.isBefore(
         moment().endOf('day')
       )
-      return currentDateIsBeforeEndOfToday || dateIsBooked(currentDate)
+
+      const dateIsMoreThanThreeMonthsAhead = moment(currentDate).isAfter(
+        moment().endOf('day').add(90, 'days')
+      )
+      return (
+        currentDateIsBeforeEndOfToday ||
+        dateIsMoreThanThreeMonthsAhead ||
+        dateIsBooked(currentDate)
+      )
     } else {
       return false
     }
@@ -122,6 +130,15 @@ export const ListingCreateBooking = ({
               disabledDate={disabledDate}
               showToday={false}
               onOpenChange={() => setCheckOutDate(null)}
+              renderExtraFooter={() => {
+                return (
+                  <div>
+                    <Text type='secondary' className='ant-calnder-footer-text'>
+                      You can only book a listing within 90 days from today.
+                    </Text>
+                  </div>
+                )
+              }}
             />
           </div>
           <div className='listing-booking__card-date-picker'>
@@ -135,6 +152,35 @@ export const ListingCreateBooking = ({
               disabledDate={disabledDate}
               showToday={false}
               disabled={checkOutInputDisabled}
+              renderExtraFooter={() => {
+                return (
+                  <div>
+                    <Text type='secondary' className='ant-calnder-footer-text'>
+                      Check-out cannot be before check-in.
+                    </Text>
+                  </div>
+                )
+              }}
+              dateRender={(current) => {
+                if (
+                  moment(current).isSame(
+                    checkInDate ? checkInDate : undefined,
+                    'day'
+                  )
+                ) {
+                  return (
+                    <Tooltip title='Check in date'>
+                      <div className='ant-calendar-date ant-calendar-date__check-in'>
+                        {current.date()}
+                      </div>
+                    </Tooltip>
+                  )
+                } else {
+                  return (
+                    <div className='ant-calendar-date'>{current.date()}</div>
+                  )
+                }
+              }}
             />
           </div>
         </div>
