@@ -44,6 +44,8 @@ interface Props {
 export const Host = ({ viewer }: Props) => {
   useScrollToTop()
 
+  useEffect(() => {}, [viewer])
+
   const [form] = Form.useForm()
 
   const formRef = useRef(form)
