@@ -1,7 +1,0 @@
-{
-  "name": "nomad-travels-project",
-  "license": "MIT",
-  "scripts": {
-    "start": "cd server && yarn start"
-  }
-}
