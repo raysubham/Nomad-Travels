@@ -43,7 +43,7 @@ export const Stripe = ({
   useEffect(() => {
     const code = new URLSearchParams(window.location.href).get('code')
 
-    if (code) {
+    if (viewer.id && code) {
       connectStripeRef.current({
         variables: { input: { code } },
       })
