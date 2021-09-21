@@ -107,7 +107,7 @@ export const Login = ({ setViewer }: Props) => {
               Sign in with Google
             </span>
           </button>
-          <Text type='secondary'>
+          <Text type='secondary' style={{ fontSize: '14px' }}>
             Note: By signing in, you'll be redirected to the Google consent form
             to sign in with your Google account.
           </Text>

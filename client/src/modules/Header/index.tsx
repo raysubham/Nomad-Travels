@@ -57,6 +57,7 @@ export const AppHeader = withRouter(
               onSearch={onSearch}
               value={search}
               onChange={(event) => setSearch(event.target.value)}
+              enterButton
             />
           </div>
         </div>

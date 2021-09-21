@@ -21,7 +21,7 @@ export const HomeBanner = ({ onSearch }: Props) => {
           Find a place you'll love to stay at!
         </Title>
         <Search
-          placeholder='Search you favourite holiday spots'
+          placeholder='Search your favourite holiday spots'
           enterButton
           size='large'
           className='home-hero__search-input'

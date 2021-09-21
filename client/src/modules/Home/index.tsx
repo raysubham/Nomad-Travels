@@ -86,7 +86,7 @@ export const Home = ({ history }: RouteComponentProps) => {
 
       <div className='home__listings'>
         <Title level={3} className='home__listings-title'>
-          Listings of any kind
+          Destination Travels
         </Title>
         <Row gutter={12}>
           <Col xs={24} sm={12}>

@@ -143,7 +143,7 @@ export const Host = ({ viewer }: Props) => {
             You have to be signed in and connected with Stripe to host a
             listing!
           </Title>
-          <Text type='secondary'>
+          <Text type='secondary' style={{ fontSize: '14px' }}>
             We only allow users who have signed in to our platform and have
             connected with stripe to host new listings. You can sign in at the{' '}
             <Link to='/login'>login</Link> page and connect with stripe shortly
