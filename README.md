@@ -10,22 +10,22 @@ This Web App uses Typescript everywhere(both frontend & backend).
 
 ### Frontend Tech
 
-- [React Js] as the main UI library.
-- [Ant Design] as the CSS component library to create visually-appealing UI.
-- [Apollo Client] for fetching GraphQL query & mutating data from and to the server.
+- [reactjs] as the main UI library.
+- [ant-design] as the CSS component library to create visually-appealing UI.
+- [apollo-client] for fetching GraphQL query & mutating data from and to the server.
 
 ### Backend Tech
 
-- [Express Js] framework on top of the [Node Js] runtime.
-- [Apollo Server] for serving data to the client.
-- [MongoDB Atlas] for the database.It's free and awesome.
-- [Cloudinary] for storing all the image files.
-- [Google Oauth 2.0] for authenticating users.
-- [Google Geocoding API] for resolving addressses of the listings.
+- [expressjs] framework on top of the nodejs] runtime.
+- [apollo-server] for serving data to the client.
+- [mongodb-atlas] for the database.It's free and awesome.
+- [cloudinary] for storing all the image files.
+- [google-oauth-2.0] for authenticating users.
+- [google-geocoding-api] for resolving addressses of the listings.
 
 ### Deployment
 
-I had initially planned to deploy this using [Docker] on a EC2 instance.But later changed my mind to [Heroku]. Btw the code includes the Dockerfile.
+I had initially planned to deploy this using [docker] on a EC2 instance.But later changed my mind to [heroku]. Btw the code includes the Dockerfile if you plan to do.
 
 ## Getting Started
 
@@ -36,7 +36,7 @@ I had initially planned to deploy this using [Docker] on a EC2 instance.But late
 
 ### Dependencies
 
-- Just run `yarn install` in both the frontend and backend directories to install all the necessary dependancies.
+- Just run `yarn` or `yarn install` in both the frontend and backend directories to install all the necessary dependancies.
 
 ### Running the website locally
 
@@ -44,15 +44,15 @@ I had initially planned to deploy this using [Docker] on a EC2 instance.But late
 
 ### That's it. Have fun 😃
 
-[React Js](https://reactjs.org/)
-[Ant Design](https://ant.design/)
-[Apollo Client](https://www.apollographql.com/)
-[Express Js](https://expressjs.com/)
-[Node Js](https://nodejs.org/en/)
-[Apollo Server](https://www.apollographql.com/)
-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-[Cloudinary](https://cloudinary.com/)
-[Google Oauth 2.0](https://developers.google.com/identity/protocols/oauth2)
-[Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/overview)
-[Docker](https://www.docker.com/)
-[Heroku](https://www.heroku.com/)
+[reactjs](https://reactjs.org/)
+[ant-design](https://ant.design/)
+[apollo-client](https://www.apollographql.com/)
+[expressjs](https://expressjs.com/)
+[nodejs](https://nodejs.org/en/)
+[apollo-server](https://www.apollographql.com/)
+[mongodb-atlas](https://www.mongodb.com/cloud/atlas)
+[cloudinary](https://cloudinary.com/)
+[google-oauth-2.0](https://developers.google.com/identity/protocols/oauth2)
+[google-geocoding-api](https://developers.google.com/maps/documentation/geocoding/overview)
+[docker](https://www.docker.com/)
+[heroku](https://www.heroku.com/)
