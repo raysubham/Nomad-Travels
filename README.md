@@ -10,22 +10,22 @@ This Web App uses Typescript everywhere(both frontend & backend).
 
 ### Frontend Tech
 
-- [reactjs] as the main UI library.
-- [ant-design] as the CSS component library to create visually-appealing UI.
-- [apollo-client] for fetching GraphQL query & mutating data from and to the server.
+- [reactjs](https://reactjs.org/) as the main UI library.
+- [ant-design](https://ant.design/) as the CSS component library to create visually-appealing UI.
+- [apollo-client](https://www.apollographql.com/) for fetching GraphQL query & mutating data from and to the server.
 
 ### Backend Tech
 
-- [expressjs] framework on top of the nodejs] runtime.
-- [apollo-server] for serving data to the client.
-- [mongodb-atlas] for the database.It's free and awesome.
-- [cloudinary] for storing all the image files.
-- [google-oauth-2.0] for authenticating users.
-- [google-geocoding-api] for resolving addressses of the listings.
+- [expressjs](https://expressjs.com/) framework on top of the [nodejs](https://nodejs.org/en/) runtime.
+- [apollo-server](https://www.apollographql.com/) for serving data to the client.
+- [mongodb-atlas](https://www.mongodb.com/cloud/atlas) for the database.It's free and awesome.
+- [cloudinary](https://cloudinary.com/) for storing all the image files.
+- [google-oauth-2.0](https://developers.google.com/identity/protocols/oauth2) for authenticating users.
+- [google-geocoding-api](https://developers.google.com/maps/documentation/geocoding/overview) for resolving addressses of the listings.
 
 ### Deployment
 
-I had initially planned to deploy this using [docker] on a EC2 instance.But later changed my mind to [heroku]. Btw the code includes the Dockerfile if you plan to do.
+I had initially planned to deploy this using [docker](https://www.docker.com/) on a EC2 instance.But later changed my mind to [heroku](https://www.heroku.com/). Btw the code includes the Dockerfile if you plan to do.
 
 ## Getting Started
 
@@ -43,16 +43,3 @@ I had initially planned to deploy this using [docker] on a EC2 instance.But late
 - Just run `yarn dev` in both the frontend and backend directories to start the local development servers.
 
 ### That's it. Have fun 😃
-
-[reactjs](https://reactjs.org/)
-[ant-design](https://ant.design/)
-[apollo-client](https://www.apollographql.com/)
-[expressjs](https://expressjs.com/)
-[nodejs](https://nodejs.org/en/)
-[apollo-server](https://www.apollographql.com/)
-[mongodb-atlas](https://www.mongodb.com/cloud/atlas)
-[cloudinary](https://cloudinary.com/)
-[google-oauth-2.0](https://developers.google.com/identity/protocols/oauth2)
-[google-geocoding-api](https://developers.google.com/maps/documentation/geocoding/overview)
-[docker](https://www.docker.com/)
-[heroku](https://www.heroku.com/)
